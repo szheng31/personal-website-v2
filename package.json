@@ -1,0 +1,41 @@
+{
+  "name": "personal-website-v2",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "seed": "ts-node src/seed/run-seed.ts"
+  },
+  "dependencies": {
+    "@mantine/core": "^8.0.2",
+    "@mantine/hooks": "^8.0.2",
+    "@payloadcms/db-vercel-postgres": "^3.41.0",
+    "@payloadcms/next": "^3.41.0",
+    "@payloadcms/payload-cloud": "^3.41.0",
+    "@payloadcms/richtext-lexical": "^3.41.0",
+    "dotenv": "^16.5.0",
+    "framer-motion": "^12.16.0",
+    "graphql": "^16.11.0",
+    "motion": "^12.16.0",
+    "next": "15.3.3",
+    "next-themes": "^0.4.6",
+    "payload": "^3.41.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "typeit-react": "^2.7.8"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.8",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.4",
+    "tailwindcss": "^4.1.8",
+    "ts-node": "^10.9.2",
+    "typescript": "^5"
+  }
+}
