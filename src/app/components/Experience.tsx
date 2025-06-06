@@ -1,12 +1,17 @@
+'use client';
+
 import { Timeline, Text } from '@mantine/core';
 import { motion } from 'framer-motion';
+import { format } from 'date-fns';
+
 
 interface ExperienceProps {
   showExperience: boolean;
   setShowExperience: (show: boolean) => void;
+  experiences: any[];
 }
 
-export default function Experience({ showExperience, setShowExperience }: ExperienceProps) {
+export default function Experience({ showExperience, setShowExperience, experiences }: ExperienceProps) {
   return (
     <div className="w-1/2">
       <span 
@@ -19,69 +24,24 @@ export default function Experience({ showExperience, setShowExperience }: Experi
         {showExperience ? 'experience' : '[experience]'}
       </span>
       <div className={`absolute w-1/2 transition-all duration-300 overflow-hidden ${showExperience ? 'max-h-[2000px] opacity-100 mt-8' : 'max-h-0 opacity-0'}`}>
-        <Timeline active={8} bulletSize={24} lineWidth={2} color="black" className="w-full">
-          <Timeline.Item title={
-            <div className="flex justify-between items-center">
-              <span>Research Intern</span>
-              <span className="text-sm text-gray-500">2025 - Present</span>
-            </div>
-          } bullet={<div className="bg-white border-2 border-black w-full h-full rounded-full" />}>
-            <Text c="dimmed" size="sm">Carnegie Mellon University - REUSE Program</Text>
-          </Timeline.Item>
-
-          <Timeline.Item title={
-            <div className="flex justify-between items-center">
-              <span>Head Undergraduate TA</span>
-              <span className="text-sm text-gray-500">2024 - Present</span>
-            </div>
-          } bullet={<div className="bg-white border-2 border-black w-full h-full rounded-full" />}>
-            <Text c="dimmed" size="sm">Computer Architecture</Text>
-          </Timeline.Item>
-
-          <Timeline.Item title={
-            <div className="flex justify-between items-center">
-              <span>Research Assistant</span>
-              <span className="text-sm text-gray-500">2024 - Present</span>
-            </div>
-          } bullet={<div className="bg-white border-2 border-black w-full h-full rounded-full" />}>
-            <Text c="dimmed" size="sm">Vanderbilt University - Prof. Bryan Ward</Text>
-          </Timeline.Item>
-
-          <Timeline.Item title={
-            <div className="flex justify-between items-center">
-              <span>REIDD</span>
-              <span className="text-sm text-gray-500">2023</span>
-            </div>
-          } bullet={<div className="bg-black w-full h-full rounded-full" />}>
-            <Text c="dimmed" size="sm">Software Engineering Intern</Text>
-          </Timeline.Item>
-
-          <Timeline.Item title={
-            <div className="flex justify-between items-center">
-              <span>Chyron</span>
-              <span className="text-sm text-gray-500">2022</span>
-            </div>
-          } bullet={<div className="bg-black w-full h-full rounded-full" />}>
-            <Text c="dimmed" size="sm">Consulting Intern</Text>
-          </Timeline.Item>
-
-          <Timeline.Item title={
-            <div className="flex justify-between items-center">
-              <span>theCoderSchool</span>
-              <span className="text-sm text-gray-500">2022 - 2023</span>
-            </div>
-          } bullet={<div className="bg-black w-full h-full rounded-full" />}>
-            <Text c="dimmed" size="sm">Code Coach</Text>
-          </Timeline.Item>
-
-          <Timeline.Item title={
-            <div className="flex justify-between items-center">
-              <span>CS Dojo</span>
-              <span className="text-sm text-gray-500">2021 - 2023</span>
-            </div>
-          } bullet={<div className="bg-black w-full h-full rounded-full" />}>
-            <Text c="dimmed" size="sm">Tutor</Text>
-          </Timeline.Item>
+        <Timeline active={experiences.length} bulletSize={24} lineWidth={2} color="black" className="w-full">
+          {experiences.map((experience) => (
+            <Timeline.Item 
+              key={experience.id}
+              title={
+                <div className="flex justify-between items-center">
+                  <span>{experience.title}</span>
+                  <span className="text-sm text-gray-500">{format(new Date(experience.startDate), 'MMM yyyy')} - {experience.current ? 'Present' : format(new Date(experience.endDate), 'MMM yyyy')}</span>
+                </div>
+              } 
+              bullet={<div className={`${experience.current ? 'bg-white border-2 border-black' : 'bg-black'} w-full h-full rounded-full`} />}
+            >
+              <Text  size="sm">{experience.company}</Text>
+              {experience.description && (
+                <Text size="sm" mt={4}>{experience.description}</Text>
+              )}
+            </Timeline.Item>
+          ))}
         </Timeline>
       </div>
     </div>

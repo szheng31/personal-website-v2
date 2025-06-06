@@ -1,21 +1,9 @@
-'use client';
-
-import Image from "next/image";
-import Link from "next/link";
 import '@mantine/core/styles.css';
-import { useState, useEffect } from 'react';
-import TypeIt from "typeit-react";
-import Experience from '@/app/components/Experience';
-import Projects from '@/app/components/Projects';
-import { AnimatePresence, motion } from 'framer-motion';
+import HomeContent from '@/app/components/HomeContent';
 import config from '@payload-config'
 import { getPayload } from 'payload'
 
 export default async function Home() {
-  const [activeSection, setActiveSection] = useState<"experience" | "projects" | null>(null);
-  const [showExperience, setShowExperience] = useState(false);
-  const [showProject, setShowProject] = useState(false);
-
   const payloadConfig = await config
   const payload = await getPayload({ config: payloadConfig })
 
@@ -23,6 +11,7 @@ export default async function Home() {
     collection: 'experiences',
     limit: 100,
     depth: 1,
+    sort: '-startDate',
   })
 
   const {docs: projects} = await payload.find({
@@ -31,146 +20,25 @@ export default async function Home() {
     depth: 1,
   })
 
-  console.log(experiences)
+  const {docs: resumes} = await payload.find({
+    collection: 'resume',
+    where: {
+      isActive: {
+        equals: true
+      }
+    },
+    limit: 1,
+  })
+
+  const resumeUrl = resumes[0]?.url || undefined
+
   return (
     <main className="min-h-[1200px] px-24 py-16">
-      <div className="relative">
-        {/* Header */}
-        <h1 className="text-8xl font-bold text-left mb-2">
-          <TypeIt
-            options={{
-              afterComplete: (instance: any) => instance.destroy()
-            }}
-          >
-            Stanley Zheng
-          </TypeIt>
-        </h1>
-
-        {/* Links */}
-        <motion.div 
-          className="flex gap-4 mb-40"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.5 }}
-        >
-          <Link href="mailto:stanley.zheng00@gmail.com" className="text-xs hover:underline">[email]</Link>
-          <Link href="https://www.linkedin.com/in/szheng-swe" target="_blank" className="text-xs hover:underline">[linkedin]</Link>
-          <Link href="https://github.com/szheng31" target="_blank" className="text-xs hover:underline">[github]</Link>
-          <div className="text-xs">[cv]</div>
-        </motion.div>
-
-        {/* Content */}
-        <motion.div 
-          className="flex"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.7 }}
-        >
-          {/* Left Column: Bio */}
-          <div className="text-2xl mb-40 w-1/2 flex items-center">
-            <p>
-              I'm a rising junior at Vanderbilt University studying Computer Science and Applied Mathematics, with a minor in Electrical/Computer Engineering. I'm interested in systems development, and I'm currently in research involved in secure and distributed systems. In my free time, I love to collect vinyls and play ultimate frisbee!
-            </p>
-          </div>
-
-          {/* Right Column: Active Section (overlay version) */}
-          <div className="w-1/2">
-            <AnimatePresence mode="wait">
-              {activeSection === "experience" && (
-                <motion.div
-                  key="experience"
-                  layoutId="experience"
-                  onClick={(e) => {
-                    if ((e.target as HTMLElement).closest('.title')) {
-                      setTimeout(() => setActiveSection(null), 300);
-                      setShowProject(false);
-                    }
-                  }}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <Experience
-                    showExperience={showExperience}
-                    setShowExperience={setShowExperience}
-                  />
-                </motion.div>
-              )}
-
-              {activeSection === "projects" && (
-                <motion.div
-                  key="projects"
-                  layoutId="projects"
-                  onClick={(e) => {
-                    if ((e.target as HTMLElement).closest('.title')) {
-                      setTimeout(() => setActiveSection(null), 300);
-                      setShowExperience(false);
-                    }
-                  }}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <Projects
-                    showProject={showProject}
-                    setShowProject={setShowProject}
-                  />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        </motion.div>
-
-        {/* Bottom Section — always present */}
-        <motion.div 
-          className="flex flex-col gap-8 mt-8"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.9 }}
-        >
-          <motion.div 
-            className="min-h-[25px]" 
-            layoutId="experience" 
-            onClick={() => {
-              if (activeSection === "projects") {
-                setShowProject(false);
-                setTimeout(() => setActiveSection("experience"), 300);
-              } else {
-                setActiveSection("experience");
-              }
-            }}
-          >
-            {activeSection != "experience" && (
-              <Experience
-                showExperience={showExperience}
-                setShowExperience={setShowExperience}
-              />
-            )}
-          </motion.div>
-
-          <motion.div 
-            className="min-h-[25px]" 
-            layoutId="projects" 
-            onClick={() => {
-              if (activeSection === "experience") {
-                setShowExperience(false);
-                setTimeout(() => setActiveSection("projects"), 300);
-              } else {
-                setActiveSection("projects");
-              }
-            }}
-          >
-            {activeSection != "projects" && (
-              <Projects
-                showProject={showProject}
-                setShowProject={setShowProject}
-              />
-            )}
-          </motion.div>
-        </motion.div>
-      </div>
+      <HomeContent 
+        experiences={experiences} 
+        projects={projects} 
+        resumeUrl={resumeUrl} 
+      />
     </main>
   );
 }

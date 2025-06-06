@@ -8,11 +8,6 @@ export const Projects: CollectionConfig = {
 
   fields: [
     {
-      name: 'id',
-      type: 'text',
-      required: true,
-    },
-    {
       name: 'image',
       type: 'upload',
       relationTo: 'media'
@@ -45,6 +40,5 @@ export const Projects: CollectionConfig = {
       name: 'github',
       type: 'text',
     }
-  ],
-  upload: true,
+  ]
 }

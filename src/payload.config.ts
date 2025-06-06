@@ -10,17 +10,27 @@ import { Projects } from './collections/Projects'
 import { Experiences } from './collections/Experience'
 import { Media } from './collections/Media'
 import { Users } from './collections/Users'
+import { Resume } from './collections/Resume'
+import {vercelBlobStorage} from '@payloadcms/storage-vercel-blob';
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
   admin: {
+    user: Users.slug,
     importMap: {
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Media, Projects, Experiences, Users],
+  plugins: [vercelBlobStorage({
+    enabled: true,
+    collections: { // If you have another collection that supports uploads, you can add it below
+      media: true,
+    },
+    token: process.env.BLOB_READ_WRITE_TOKEN
+})],
+  collections: [Media, Projects, Experiences, Users, Resume],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
