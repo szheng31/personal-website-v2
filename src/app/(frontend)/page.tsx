@@ -3,17 +3,35 @@
 import Image from "next/image";
 import Link from "next/link";
 import '@mantine/core/styles.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import TypeIt from "typeit-react";
 import Experience from '@/app/components/Experience';
 import Projects from '@/app/components/Projects';
 import { AnimatePresence, motion } from 'framer-motion';
+import config from '@payload-config'
+import { getPayload } from 'payload'
 
-export default function Home() {
+export default async function Home() {
   const [activeSection, setActiveSection] = useState<"experience" | "projects" | null>(null);
   const [showExperience, setShowExperience] = useState(false);
   const [showProject, setShowProject] = useState(false);
 
+  const payloadConfig = await config
+  const payload = await getPayload({ config: payloadConfig })
+
+  const {docs: experiences} = await payload.find({
+    collection: 'experiences',
+    limit: 100,
+    depth: 1,
+  })
+
+  const {docs: projects} = await payload.find({
+    collection: 'projects',
+    limit: 100,
+    depth: 1,
+  })
+
+  console.log(experiences)
   return (
     <main className="min-h-[1200px] px-24 py-16">
       <div className="relative">
