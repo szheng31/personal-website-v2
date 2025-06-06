@@ -11,6 +11,7 @@ interface ExperienceProps {
   experiences: any[];
 }
 
+
 export default function Experience({ showExperience, setShowExperience, experiences }: ExperienceProps) {
   return (
     <div className="w-1/2">
