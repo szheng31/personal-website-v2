@@ -32,10 +32,10 @@ export default function Experience({ showExperience, setShowExperience, experien
               title={
                 <div className="flex justify-between items-center">
                   <span>{experience.title}</span>
-                  <span className="text-sm text-gray-500">{format(new Date(experience.startDate), 'MMM yyyy')} - {experience.current ? 'Present' : format(new Date(experience.endDate), 'MMM yyyy')}</span>
+                  <span className="text-sm text-gray-500">{format(new Date(experience.startDate), 'MMM yyyy')} - {experience.current ? format(new Date(experience.endDate), 'MMM yyyy') : 'Present'}</span>
                 </div>
               } 
-              bullet={<div className={`${experience.current ? 'bg-white border-2 border-black' : 'bg-black'} w-full h-full rounded-full`} />}
+              bullet={<div className={`${!experience.current ? 'bg-white border-2 border-black' : 'bg-black'} w-full h-full rounded-full`} />}
             >
               <Text  size="sm">{experience.company}</Text>
               {experience.description && (
