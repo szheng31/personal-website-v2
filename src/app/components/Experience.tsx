@@ -9,22 +9,23 @@ interface ExperienceProps {
   showExperience: boolean;
   setShowExperience: (show: boolean) => void;
   experiences: any[];
+  noDelay?: boolean;
 }
 
 
-export default function Experience({ showExperience, setShowExperience, experiences }: ExperienceProps) {
+export default function Experience({ showExperience, setShowExperience, experiences, noDelay }: ExperienceProps) {
   return (
-    <div className="w-1/2">
+    <div className="w-full">
       <span 
         onClick={() => {
-          const delay = showExperience ? 0 : 500;
+          const delay = showExperience ? 0 : noDelay ? 0 : 500;
           setTimeout(() => setShowExperience(!showExperience), delay);
         }}
         className={`title cursor-pointer transition-all duration-300 ${showExperience ? 'underline' : ''}`}
       >
         {showExperience ? 'experience' : '[experience]'}
       </span>
-      <div className={`absolute w-1/2 transition-all duration-300 overflow-hidden ${showExperience ? 'max-h-[2000px] opacity-100 mt-8' : 'max-h-0 opacity-0'}`}>
+      <div className={`absolute w-full lg:w-1/2 transition-all duration-300 overflow-hidden ${showExperience ? 'max-h-[2000px] opacity-100 mt-8' : 'max-h-0 opacity-0'}`}>
         <Timeline active={experiences.length} bulletSize={24} lineWidth={2} color="black" className="w-full">
           {experiences.map((experience) => (
             <Timeline.Item 

@@ -9,16 +9,17 @@ interface ProjectsProps {
   showProject: boolean;
   setShowProject: (show: boolean) => void;
   projects: any[];
+  noDelay?: boolean;
 }
 
-export default function Projects({ showProject, setShowProject, projects }: ProjectsProps) {
+export default function Projects({ showProject, setShowProject, projects, noDelay }: ProjectsProps) {
   const [openedModal, setOpenedModal] = useState<string | null>(null);
 
   return (
-    <div className="w-1/2">
+    <div className="w-full">
       <span 
         onClick={() => {
-          const delay = showProject ? 0 : 500;
+          const delay = showProject ? 0 : noDelay ? 0 : 500;
           setTimeout(() => setShowProject(!showProject), delay);
         }}
         className={`title cursor-pointer transition-all duration-300 ${showProject ? 'underline' : ''}`}
@@ -48,7 +49,7 @@ export default function Projects({ showProject, setShowProject, projects }: Proj
               >
                 <div className="space-y-4 text-black">
                   {project.image && (
-                    <div className="relative w-full h-64">
+                    <div className="relative w-full h-80">
                       <Image
                         src={project.image.url}
                         alt={project.title}

@@ -5,7 +5,7 @@ import { useState } from 'react';
 import TypeIt from "typeit-react";
 import Experience from '@/app/components/Experience';
 import Projects from '@/app/components/Projects';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion,} from 'framer-motion';
 
 interface HomeContentProps {
   experiences: any[];
@@ -33,7 +33,7 @@ export default function HomeContent({ experiences, projects, resumeUrl }: HomeCo
 
       {/* Links */}
       <motion.div 
-        className="flex gap-4 mb-40"
+        className="flex gap-4 lg:mb-30 md:mb-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 0.5 }}
@@ -56,14 +56,14 @@ export default function HomeContent({ experiences, projects, resumeUrl }: HomeCo
         transition={{ duration: 1, delay: 0.7 }}
       >
         {/* Left Column: Bio */}
-        <div className="text-2xl mb-40 w-1/2 flex items-center">
+        <div className="text-2xl lg:mb-25 mb-5 lg:w-1/2 flex items-center">
           <p>
             I'm a rising junior at Vanderbilt University studying Computer Science and Applied Mathematics, with a minor in Electrical/Computer Engineering. I'm interested in systems development and programming languages, and I'm currently in research involved in secure and distributed systems. In my free time, I love to collect vinyls and play ultimate frisbee!
           </p>
         </div>
 
         {/* Right Column: Active Section (overlay version) */}
-        <div className="w-1/2">
+        <div className="w-1/2 hidden lg:block">
           <AnimatePresence mode="wait">
             {activeSection === "experience" && (
               <motion.div
@@ -73,11 +73,12 @@ export default function HomeContent({ experiences, projects, resumeUrl }: HomeCo
                   if ((e.target as HTMLElement).closest('.title')) {
                     setTimeout(() => setActiveSection(null), 300);
                     setShowProject(false);
+                    setShowExperience(true);
                   }
                 }}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 0 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
+                exit={{ opacity: 0, y: 0 }}
                 transition={{ duration: 0.3 }}
               >
                 <Experience
@@ -96,11 +97,12 @@ export default function HomeContent({ experiences, projects, resumeUrl }: HomeCo
                   if ((e.target as HTMLElement).closest('.title')) {
                     setTimeout(() => setActiveSection(null), 300);
                     setShowExperience(false);
+                    setShowProject(true);
                   }
                 }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
+                initial={{ opacity: 0, x: 0 }}
+                animate={{ opacity: 1, x: 0}}
+                exit={{ opacity: 0, y: 0 }}
                 transition={{ duration: 0.3 }}
               >
                 <Projects
@@ -116,7 +118,7 @@ export default function HomeContent({ experiences, projects, resumeUrl }: HomeCo
 
       {/* Bottom Section — always present */}
       <motion.div 
-        className="flex flex-col gap-8 mt-8"
+        className="flex-col gap-8 mt-8 hidden lg:flex"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 0.9 }}
@@ -125,11 +127,12 @@ export default function HomeContent({ experiences, projects, resumeUrl }: HomeCo
           className="min-h-[25px]" 
           layoutId="experience" 
           onClick={() => {
-            if (activeSection === "projects") {
+            if (activeSection === "projects") { // wait for projects to close before opening experience
               setShowProject(false);
               setTimeout(() => setActiveSection("experience"), 300);
             } else {
               setActiveSection("experience");
+              setTimeout(() => setShowExperience(true), 400);
             }
           }}
         >
@@ -151,6 +154,7 @@ export default function HomeContent({ experiences, projects, resumeUrl }: HomeCo
               setTimeout(() => setActiveSection("projects"), 300);
             } else {
               setActiveSection("projects");
+              setTimeout(() => setShowProject(true), 400);
             }
           }}
         >
@@ -162,6 +166,31 @@ export default function HomeContent({ experiences, projects, resumeUrl }: HomeCo
             />
           )}
         </motion.div>
+      </motion.div>
+
+      {/* Mobile Experience and Projects Section */}
+      <motion.div 
+        className="lg:hidden flex flex-col mt-8 w-full"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 0.9 }}
+      >
+        <div className={`lg:hidden relative transition-all duration-300 w-full`}>
+          <Experience
+            showExperience={showExperience}
+            setShowExperience={setShowExperience}
+            experiences={experiences}
+            noDelay={true}
+          />
+        </div>
+        <div className={`lg:hidden relative transition-all duration-300 ${showExperience ? 'mt-[650px]' : 'mt-8'}`}>
+          <Projects
+            showProject={showProject}
+            setShowProject={setShowProject}
+            projects={projects}
+            noDelay={true}
+          />
+        </div>
       </motion.div>
     </div>
   );
