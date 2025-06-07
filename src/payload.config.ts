@@ -25,11 +25,12 @@ export default buildConfig({
   },
   plugins: [vercelBlobStorage({
     enabled: true,
-    collections: { // If you have another collection that supports uploads, you can add it below
+    collections: {
       media: true,
+      resume: true,
     },
     token: process.env.BLOB_READ_WRITE_TOKEN
-})],
+  })],
   collections: [Media, Projects, Experiences, Users, Resume],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
