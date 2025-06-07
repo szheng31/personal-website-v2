@@ -6,7 +6,6 @@ export const Resume: CollectionConfig = {
     read: () => true,
   },
   upload: {
-    staticDir: 'resume',
     mimeTypes: ['application/pdf'],
   },
   fields: [
