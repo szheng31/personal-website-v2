@@ -58,7 +58,7 @@ export default function Projects({ showProject, setShowProject, projects }: Proj
                     </div>
                   )}
                   <p>{project.modalDescription}</p>
-                  <p className="text-sm text-gray-600">Technologies: {project.technologies}</p>
+                  <p className="text-sm text-gray-600">Technologies: {project.tech}</p>
                   <div className="flex gap-4">
                     {project.link && (
                       <Link href={project.link} target="_blank" className="text-sm hover:underline">

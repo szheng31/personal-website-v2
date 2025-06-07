@@ -3,6 +3,9 @@ import HomeContent from '@/app/components/HomeContent';
 import config from '@payload-config'
 import { getPayload } from 'payload'
 
+// Add revalidation to ensure page updates when content changes
+export const revalidate = 0; // revalidate at every request
+
 export default async function Home() {
   const payloadConfig = await config
   const payload = await getPayload({ config: payloadConfig })
