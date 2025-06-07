@@ -8,7 +8,6 @@ export const Resume: CollectionConfig = {
   upload: {
     staticDir: 'resume',
     mimeTypes: ['application/pdf'],
-    disableLocalStorage: true,
     
   },
   fields: [
