@@ -7,6 +7,7 @@ export const Resume: CollectionConfig = {
   },
   upload: {
     mimeTypes: ['application/pdf'],
+    disableLocalStorage: true,
   },
   fields: [
     {

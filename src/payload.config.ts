@@ -11,7 +11,7 @@ import { Experiences } from './collections/Experience'
 import { Media } from './collections/Media'
 import { Users } from './collections/Users'
 import { Resume } from './collections/Resume'
-import {vercelBlobStorage} from '@payloadcms/storage-vercel-blob';
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -23,14 +23,18 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  plugins: [vercelBlobStorage({
-    enabled: true,
-    collections: {
-      media: true,
-      resume: true,
-    },
-    token: process.env.BLOB_READ_WRITE_TOKEN
-  })],
+  plugins: [
+    vercelBlobStorage({
+      enabled: true,
+      collections: {
+        media: true,
+        resume: {
+          disablePayloadAccessControl: true,
+        },
+      },
+      token: process.env.BLOB_READ_WRITE_TOKEN
+    })
+  ],
   collections: [Media, Projects, Experiences, Users, Resume],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
