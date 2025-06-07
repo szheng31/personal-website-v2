@@ -37,7 +37,7 @@ export default function Experience({ showExperience, setShowExperience, experien
               } 
               bullet={<div className={`${!experience.current ? 'bg-white border-2 border-black' : 'bg-black'} w-full h-full rounded-full`} />}
             >
-              <Text  size="sm">{experience.company}</Text>
+              <Text  size="sm">{experience.organization}</Text>
               {experience.description && (
                 <Text size="sm" mt={4}>{experience.description}</Text>
               )}
