@@ -28,9 +28,7 @@ export default buildConfig({
       enabled: true,
       collections: {
         media: true,
-        resume: {
-          disablePayloadAccessControl: true,
-        },
+        resume: true
       },
       token: process.env.BLOB_READ_WRITE_TOKEN
     })

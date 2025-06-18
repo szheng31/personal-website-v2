@@ -3,6 +3,8 @@ import HomeContent from '@/app/components/HomeContent';
 import config from '@payload-config'
 import { getPayload } from 'payload'
 
+
+
 // Add revalidation to ensure page updates when content changes
 export const revalidate = 0; // revalidate at every request
 
@@ -33,7 +35,7 @@ export default async function Home() {
     limit: 1,
   })
 
-  const resumeUrl = resumes[0]?.url || undefined
+  let resumeUrl = resumes[0]?.url || undefined; 
 
   return (
     <main className="min-h-[1200px] px-24 py-16">

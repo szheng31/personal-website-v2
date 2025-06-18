@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import { MantineProvider, createTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next"
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,6 +25,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <MantineProvider>
           {children}
+          <Analytics />
         </MantineProvider>
       </body>
     </html>
